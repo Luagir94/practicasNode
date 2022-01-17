@@ -1,0 +1,6 @@
+{
+    "nombre" : "Api Lucho - dev",
+    "configDB": {
+        "host": "dev-db-server"
+    }
+}
