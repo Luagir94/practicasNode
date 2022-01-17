@@ -29,8 +29,7 @@ ruta.get('/:id', (req, res) => {
     let usuario = userExist(req.params.id)
     if (!usuario) res.status(404).send('El usuario no fue encontrado')
     res.send(usuario)
-})
-
+}) 
 ruta.post('/', (req, res) => {
     const { error, value } = userValidation(req.body.nombre)
     if (!error) {
