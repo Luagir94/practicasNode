@@ -1,31 +1,46 @@
-const inicioDebug = require('debug')('app:inicio')
-const dbDebug = require('debug')('app:db')
-const nodemon = require('nodemon');
+const debug = require('debug')('app:inicio');
+//const dbDebug = require('debug')('app:db');
+
+const usuarios = require('./routes/usuarios');
 const express = require('express');
+const config = require('config');
+//const logger = require('./logger');
+const morgan = require('morgan');
+//const Joi = require('@hapi/joi');
 const app = express();
-const config = require('config')
-const usuarios = require('./routes/usuarios')
-const morgan = require('morgan')
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
-app.use(express.static('public'))
-app.use('/api/usuarios', usuarios)
-//Logs
 
-if (app.get('env') === 'development') {
-    app.use(morgan('tiny'))
-    inicioDebug('Morgan on...')
-    dbDebug('db on...')
+app.use(express.json());//body 
+app.use(express.urlencoded({extended:true}));
+app.use(express.static('public'));
+app.use('/api/usuarios', usuarios);
+
+//Configuación de entornos
+console.log('Aplicación: ' + config.get('nombre'));
+console.log('BD server: ' + config.get('configDB.host'));
+
+//Uso de middleware de tercero - Morgan
+if(app.get('env') === 'development'){
+    app.use(morgan('tiny'));
+    //console.log('Morgan habilitado...')
+    debug('Morgan esta habilitado.');
 }
-//Config
-console.log(`Aplicacion ${config.get('nombre')}`)
-console.log(`DB server ${config.get('configDB.host')}`)
-console.log(app.get('env'))
 
+//Trabajos con la base de datos
+debug('Conenctando con la bd...');
 
-const port = process.env.PORT || 3000
+//app.use(logger);
+// app.use(function(req, res, next){
+//     console.log('Autenticando....');
+//     next();
+// })
 
+app.get('/', (req, res) => {
+    res.send('Hola Mundo desde Express.');
+});
+
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Escuchando en el puerto ${port}...`);
 })
+
 

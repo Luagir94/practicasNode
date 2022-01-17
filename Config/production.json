@@ -1,6 +1,6 @@
 {
-    "nombre" : "Api Lucho - production",
-    "configDB": {
-        "host": "prod-db-server"
+    "nombre" : "Api Rest Express - Producción",
+    "configDB":{
+        "host":"prod-db-server"
     }
 }
